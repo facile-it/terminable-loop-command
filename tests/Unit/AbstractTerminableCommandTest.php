@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Facile\TerminableLoop\Tests\Unit;
 
 use Facile\TerminableLoop\AbstractTerminableCommand;
@@ -10,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AbstractTerminableCommandTest extends TestCase
 {
-    public function testSetSleepDuration(): void 
+    public function testSetSleepDuration(): void
     {
         $stubCommand = new class() extends AbstractTerminableCommand {
             protected function commandBody(InputInterface $input, OutputInterface $output): int
