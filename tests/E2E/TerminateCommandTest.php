@@ -38,6 +38,7 @@ class TerminateCommandTest extends TestCase
                 [
                     self::CONSOLE_COMMAND,
                     self::STUB_COMMAND,
+                    '-vvv',
                 ],
             ],
             [
@@ -45,6 +46,7 @@ class TerminateCommandTest extends TestCase
                     self::BASH_COMMAND,
                     self::CONSOLE_COMMAND,
                     self::STUB_COMMAND,
+                    '-vvv',
                 ],
             ],
         ];
@@ -72,7 +74,7 @@ class TerminateCommandTest extends TestCase
         $this->assertCommandIsFound($process);
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
         $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
-        $this->assertStringContainsString('Slept 0 seconds', $process->getOutput());
+        $this->assertStringContainsString('Slept 0 second(s)', $process->getOutput());
         $this->assertSame(143, $process->getExitCode());
     }
 
@@ -98,7 +100,7 @@ class TerminateCommandTest extends TestCase
         $this->assertCommandIsFound($process);
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
         $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
-        $this->assertRegExp('/Slept (0|1) seconds/', $process->getOutput());
+        $this->assertRegExp('/Slept (0|1) second\(s\)/', $process->getOutput());
         $this->assertSame(143, $process->getExitCode());
     }
 
