@@ -28,4 +28,4 @@ jobs:
     - stage: Coverage
       script: phpdbg -qrr vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
       after_success:
-        - php bin/coveralls -v
+        - php vendor/bin/coveralls -v
