@@ -30,6 +30,8 @@ class AbstractTerminableCommandTest extends TestCase
             {
                 $this->setSleepDuration(100);
 
+                $output->writeln('Testing getSleepDuration: ' . $this->getSleepDuration());
+
                 return 0;
             }
         };
@@ -37,6 +39,8 @@ class AbstractTerminableCommandTest extends TestCase
         $input = $this->prophesize(InputInterface::class);
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
+            ->shouldBeCalledTimes(1);
+        $output->writeln('Testing getSleepDuration: 100')
             ->shouldBeCalledTimes(1);
         $output->writeln('Slept 100 second(s)', OutputInterface::VERBOSITY_DEBUG)
             ->shouldBeCalledTimes(1);
@@ -100,6 +104,33 @@ class AbstractTerminableCommandTest extends TestCase
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
             ->shouldBeCalledTimes(1);
         $output->writeln('Signal received, terminating with exit code 143', OutputInterface::VERBOSITY_NORMAL)
+            ->shouldBeCalledTimes(1);
+
+        $exitCode = $stubCommand->run($input->reveal(), $output->reveal());
+
+        $this->assertSame(143, $exitCode);
+    }
+
+    /**
+     * @dataProvider signalProvider
+     */
+    public function testReceiveSignalBeforeCommandBody(int $signal): void
+    {
+        $stubCommand = new class() extends AbstractTerminableCommand {
+            protected function commandBody(InputInterface $input, OutputInterface $output): int
+            {
+                return 0;
+            }
+        };
+
+        $input = $this->prophesize(InputInterface::class);
+        $output = $this->prophesize(OutputInterface::class);
+        $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
+            ->shouldBeCalledTimes(1)
+            ->will(function () use ($stubCommand, $signal) {
+                $stubCommand->handleSignal($signal);
+            });
+        $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL)
             ->shouldBeCalledTimes(1);
 
         $exitCode = $stubCommand->run($input->reveal(), $output->reveal());
