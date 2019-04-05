@@ -10,7 +10,7 @@ php:
   - 7.3
 
 before_install:
-  - if [[ !$XDEBUG ]]; then phpenv config-rm xdebug.ini; fi
+  - phpenv config-rm xdebug.ini
 
 install: composer update --prefer-dist --prefer-stable --no-interaction
 
