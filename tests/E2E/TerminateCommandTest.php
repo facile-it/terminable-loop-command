@@ -76,6 +76,32 @@ class TerminateCommandTest extends TestCase
         $this->assertSame(143, $process->getExitCode());
     }
 
+    public function testSigTermDuringSleep(): void
+    {
+        $process = new Process([
+            self::BASH_COMMAND,
+            self::CONSOLE_COMMAND,
+            self::STUB_COMMAND,
+            '--stub=0',
+            '--sleep=1000',
+            '-vvv',
+        ]);
+        $process->setTimeout(5);
+        $process->enableOutput();
+        $process->start();
+
+        sleep(1);
+        $process->signal(SIGTERM);
+
+        $process->wait();
+
+        $this->assertCommandIsFound($process);
+        $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
+        $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
+        $this->assertRegExp('/Slept (0|1) seconds/', $process->getOutput());
+        $this->assertSame(143, $process->getExitCode());
+    }
+
     private function assertCommandIsFound(Process $process): void
     {
         $this->assertNotEquals(127, $process->getExitCode(), 'Command not found: ' . $process->getCommandLine());
