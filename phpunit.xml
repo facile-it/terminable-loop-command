@@ -5,7 +5,6 @@
          executionOrder="depends,defects"
          cacheResult="false"
          colors="true"
-         forceCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          verbose="true">

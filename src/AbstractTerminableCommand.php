@@ -91,7 +91,7 @@ abstract class AbstractTerminableCommand extends Command
     {
         $sleepCountDown = $this->sleepDuration;
 
-        while (! $this->signalShutdownRequested && $sleepCountDown--) {
+        while (! $this->signalShutdownRequested && --$sleepCountDown) {
             sleep(1);
         }
 
