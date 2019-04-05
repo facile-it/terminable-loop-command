@@ -1,0 +1,31 @@
+language: php
+sudo: false
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+before_install:
+  - if [[ !$XDEBUG ]]; then phpenv config-rm xdebug.ini; fi
+
+install: composer update --prefer-dist --prefer-stable --no-interaction
+
+script: vendor/bin/phpunit
+
+jobs:
+  include:
+    - env: VENDOR=prefer-lowest
+      install: composer update --prefer-lowest --prefer-dist --prefer-stable --no-interaction
+    - stage: Code style, static analysis
+      name: PHPStan
+      script: make phpstan
+    - name: Code Style
+      script: make cs-dry-run
+    - stage: Coverage
+      script: phpdbg -qrr vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
+      after_success:
+        - php bin/coveralls -v
