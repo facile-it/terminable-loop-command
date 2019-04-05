@@ -27,7 +27,7 @@ class TerminateCommandTest extends TestCase
 
         $this->assertNotEquals(127, $process->getExitCode(), 'Command not found: ' . $process->getCommandLine());
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
-        $this->assertStringContainsString('No sleep ', $process->getOutput());
+        $this->assertStringContainsString('No sleep', $process->getOutput());
         $this->assertSame(1, $process->getExitCode());
     }
 

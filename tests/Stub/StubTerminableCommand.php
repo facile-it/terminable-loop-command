@@ -24,7 +24,7 @@ class StubTerminableCommand extends AbstractTerminableCommand
 
     protected function commandBody(InputInterface $input, OutputInterface $output): int
     {
-        $sleepDuration = $this->getIntArgument($input, 'sleep');
+        $sleepDuration = $this->getSleep($input);
 
         if ($sleepDuration > 0) {
             $output->writeln(sprintf('Sleeping %d seconds', $sleepDuration));
@@ -45,22 +45,22 @@ class StubTerminableCommand extends AbstractTerminableCommand
     /**
      * @throws \InvalidArgumentException
      */
-    protected function getIntArgument(InputInterface $input, string $paramName): int
+    protected function getSleep(InputInterface $input): int
     {
-        $paramValue = $input->getArgument($paramName);
+        $paramValue = $input->getOption('sleep');
 
         if (is_numeric($paramValue)) {
             $value = (int) $paramValue;
 
             if ($value < 0) {
-                throw new \InvalidArgumentException($paramName . ': Not a positive integer value');
+                throw new \InvalidArgumentException('Not a positive integer value');
             }
 
             return $value;
         }
 
         throw new \InvalidArgumentException(
-            $paramName . ': Can\'t return an int from ' . print_r($paramValue, true)
+            'Can\'t return an int from ' . print_r($paramValue, true)
         );
     }
 }

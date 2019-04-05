@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [[ -z "$1" ]]; then
+if [ -z "$1" ]; then
     echo "Missing argument: no command arguments to launch";
     exit 1;
 fi
@@ -16,7 +16,7 @@ while true; do
 
     STATUS=$?
 
-    if [[ ${STATUS} -ne 0 ]]; then
+    if [ ${STATUS} -ne 0 ]; then
         echo "Command exited with status code $STATUS, loop interrupted";
         exit ${STATUS};
     fi
