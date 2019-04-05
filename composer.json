@@ -6,6 +6,9 @@
     "config": {
         "sort-packages": true
     },
+    "bin": [
+        "bin/terminable-loop-command.sh"
+    ],
     "authors": [
         {
             "name": "Alessandro Lai",

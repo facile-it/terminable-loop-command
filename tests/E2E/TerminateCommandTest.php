@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 
 class TerminateCommandTest extends TestCase
 {
-    private const BASH_COMMAND = __DIR__ . '/../../bin/run_terminable_command.sh';
+    private const BASH_COMMAND = __DIR__ . '/../../bin/terminable-loop-command.sh';
     private const CONSOLE_COMMAND = __DIR__ . '/../Stub/console';
     private const STUB_COMMAND = 'stub:terminable:sleep';
 
