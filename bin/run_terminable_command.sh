@@ -7,22 +7,22 @@ fi
 
 echo "Starting command: $@";
 
+_term() {
+  kill -TERM $CHILD 2>/dev/null
+  wait $CHILD
+}
+
 trap _term TERM
 
 while true; do
     $@ &
     CHILD=$!
-    wait ${CHILD}
+    wait $CHILD
 
     STATUS=$?
 
-    if [ ${STATUS} -ne 0 ]; then
+    if [ $STATUS -ne 0 ]; then
         echo "Command exited with status code $STATUS, loop interrupted";
-        exit ${STATUS};
+        exit $STATUS;
     fi
 done
-
-_term() {
-  kill -TERM ${CHILD} 2>/dev/null
-  wait ${CHILD}
-}

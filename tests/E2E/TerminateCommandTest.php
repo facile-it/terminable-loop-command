@@ -25,7 +25,7 @@ class TerminateCommandTest extends TestCase
         $process->enableOutput();
         $process->run();
 
-        $this->assertNotEquals(127, $process->getExitCode(), 'Command not found: ' . $process->getCommandLine());
+        $this->assertCommandIsFound($process);
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
         $this->assertStringContainsString('No sleep', $process->getOutput());
         $this->assertSame(1, $process->getExitCode());
@@ -48,5 +48,36 @@ class TerminateCommandTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    public function testSigTermDuringCommandBody(): void
+    {
+        $process = new Process([
+            self::BASH_COMMAND,
+            self::CONSOLE_COMMAND,
+            self::STUB_COMMAND,
+            '--stub=3',
+            '--sleep=1',
+            '-vvv',
+        ]);
+        $process->setTimeout(5);
+        $process->enableOutput();
+        $process->start();
+
+        sleep(1);
+        $process->signal(SIGTERM);
+
+        $process->wait();
+
+        $this->assertCommandIsFound($process);
+        $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
+        $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
+        $this->assertStringContainsString('Slept 0 seconds', $process->getOutput());
+        $this->assertSame(143, $process->getExitCode());
+    }
+
+    private function assertCommandIsFound(Process $process): void
+    {
+        $this->assertNotEquals(127, $process->getExitCode(), 'Command not found: ' . $process->getCommandLine());
     }
 }

@@ -40,7 +40,7 @@ abstract class AbstractTerminableCommand extends Command
 
         $exitCode = $this->commandBody($input, $output);
 
-        $this->sleep();
+        $this->sleep($output);
 
         if ($this->signalShutdownRequested) {
             $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE);
@@ -87,12 +87,17 @@ abstract class AbstractTerminableCommand extends Command
         $this->sleepDuration = $sleepDuration;
     }
 
-    private function sleep(): void
+    private function sleep(OutputInterface $output): void
     {
-        $sleepDuration = $this->sleepDuration;
+        $sleepCountDown = $this->sleepDuration;
 
-        while (! $this->signalShutdownRequested && $sleepDuration--) {
+        while (! $this->signalShutdownRequested && $sleepCountDown--) {
             sleep(1);
         }
+
+        $output->writeln(
+            sprintf('Slept %d seconds', $this->sleepDuration - $sleepCountDown),
+            OutputInterface::VERBOSITY_DEBUG
+        );
     }
 }

@@ -19,22 +19,24 @@ class StubTerminableCommand extends AbstractTerminableCommand
 
     public function configure(): void
     {
+        $this->addOption('stub', null, InputOption::VALUE_REQUIRED, 'Stubbed execution duration time', 0);
         $this->addOption('sleep', null, InputOption::VALUE_REQUIRED, 'Sleep duration time', 0);
     }
 
     protected function commandBody(InputInterface $input, OutputInterface $output): int
     {
-        $sleepDuration = $this->getSleep($input);
+        $stubDuration = $this->getOption($input, 'stub');
+        $sleepDuration = $this->getOption($input, 'sleep');
+
+        if ($stubDuration) {
+            $process = new Process(['sleep', $stubDuration]);
+            $process->run();
+        }
+
+        $output->writeln('Stub execution terminated');
 
         if ($sleepDuration > 0) {
-            $output->writeln(sprintf('Sleeping %d seconds', $sleepDuration));
-
             $this->setSleepDuration($sleepDuration);
-
-            $process = new Process(['sleep', $sleepDuration]);
-            $process->run();
-
-            $output->writeln('Elaborazione terminata');
         } else {
             $output->writeln('No sleep');
         }
@@ -45,9 +47,9 @@ class StubTerminableCommand extends AbstractTerminableCommand
     /**
      * @throws \InvalidArgumentException
      */
-    protected function getSleep(InputInterface $input): int
+    protected function getOption(InputInterface $input, string $name): int
     {
-        $paramValue = $input->getOption('sleep');
+        $paramValue = $input->getOption($name);
 
         if (is_numeric($paramValue)) {
             $value = (int) $paramValue;
