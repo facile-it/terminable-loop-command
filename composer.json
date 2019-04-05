@@ -3,6 +3,9 @@
     "description": "A Shell+PHP wrapper to run Symfony console commands in loop under a daemon or Kubernetes",
     "type": "library",
     "license": "MIT",
+    "config": {
+        "sort-packages": true
+    },
     "authors": [
         {
             "name": "Alessandro Lai",
@@ -20,13 +23,13 @@
         }
     },
     "require": {
-        "symfony/console": "^3.4 | ^4.0",
-        "php": "^7.1"
+        "php": "^7.1",
+        "symfony/console": "^3.4 | ^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5 | ^8.0",
         "facile-it/facile-coding-standard": "^0.3.1",
         "phpstan/phpstan": "^0.11.5",
-        "phpstan/phpstan-phpunit": "^0.11.0"
+        "phpstan/phpstan-phpunit": "^0.11.0",
+        "phpunit/phpunit": "^7.5 | ^8.0"
     }
 }
