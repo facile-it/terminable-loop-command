@@ -28,6 +28,8 @@ abstract class AbstractTerminableCommand extends Command
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->trapSignals();
+
         $output->writeln('Starting ' . $this->getName());
 
         if ($this->signalShutdownRequested) {
@@ -57,17 +59,12 @@ abstract class AbstractTerminableCommand extends Command
             // Shutdown signals
             case SIGTERM:
             case SIGINT:
-                $this->onReceivedSignal();
+                $this->signalShutdownRequested = true;
                 break;
         }
     }
 
-    protected function onReceivedSignal(): void
-    {
-        $this->signalShutdownRequested = true;
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output): void
+    private function trapSignals(): void
     {
         pcntl_async_signals(true);
 
