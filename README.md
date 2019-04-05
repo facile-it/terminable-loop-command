@@ -18,11 +18,12 @@ vendor/bin/terminable-loop-command.sh my_custom_command.php
 ```
 ... where `my_custom_command.php` launches your command class, which must extend `AbstractTerminableCommand` (see the [test stub in this repo](https://github.com/facile-it/terminable-loop-command/blob/master/tests/Stub/StubTerminableCommand.php)) 
 
-Example with a command in a common Symfony app: 
+### Example with a command in a common Symfony app 
 
 ```bash
 vendor/bin/terminable-loop-command.sh bin/console my:command
 ```
+... where the command is:
 ```php
 <?php
 
