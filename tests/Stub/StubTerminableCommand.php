@@ -35,6 +35,8 @@ class StubTerminableCommand extends AbstractTerminableCommand
             $process->run();
 
             $output->writeln('Elaborazione terminata');
+        } else {
+            $output->writeln('No sleep');
         }
 
         return 1; //force exit from bash

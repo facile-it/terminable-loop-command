@@ -18,7 +18,7 @@ abstract class AbstractTerminableCommand extends Command
     /** @var bool */
     private $signalShutdownRequested;
 
-    public function __construct(string $name)
+    public function __construct(string $name = null)
     {
         $this->sleepDuration = 0;
         $this->signalShutdownRequested = false;
@@ -28,10 +28,10 @@ abstract class AbstractTerminableCommand extends Command
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Run TerminableCommand');
+        $output->writeln('Starting ' . $this->getName());
 
         if ($this->signalShutdownRequested) {
-            $output->writeln('Sigterm presente, non eseguo il comando ' . $this->getName());
+            $output->writeln('Signal received, skipping execution');
 
             return self::REQUEST_TO_TERMINATE;
         }
@@ -41,7 +41,7 @@ abstract class AbstractTerminableCommand extends Command
         $this->sleep();
 
         if ($this->signalShutdownRequested) {
-            $output->writeln('Sigterm presente esco dal comando ' . $this->getName());
+            $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE);
 
             return self::REQUEST_TO_TERMINATE;
         }

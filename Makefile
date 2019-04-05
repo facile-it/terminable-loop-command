@@ -11,3 +11,5 @@ phpstan:
 
 tests:
 	vendor/bin/phpunit --verbose
+
+.PHONY: tests

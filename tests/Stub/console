@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Facile\TerminableLoop\Tests\Stub\StubTerminableCommand;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+set_time_limit(0);
+
+require __DIR__.'/../../vendor/autoload.php';
+
+$input = new ArgvInput();
+
+$application = new Application('Stub application');
+$application->add(new StubTerminableCommand());
+$application->run($input);
