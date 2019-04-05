@@ -30,10 +30,10 @@ abstract class AbstractTerminableCommand extends Command
     {
         $this->trapSignals();
 
-        $output->writeln('Starting ' . $this->getName());
+        $output->writeln('Starting ' . $this->getName(), OutputInterface::VERBOSITY_VERBOSE);
 
         if ($this->signalShutdownRequested) {
-            $output->writeln('Signal received, skipping execution');
+            $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL);
 
             return self::REQUEST_TO_TERMINATE;
         }
@@ -43,7 +43,7 @@ abstract class AbstractTerminableCommand extends Command
         $this->sleep($output);
 
         if ($this->signalShutdownRequested) {
-            $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE);
+            $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
 
             return self::REQUEST_TO_TERMINATE;
         }
@@ -96,7 +96,7 @@ abstract class AbstractTerminableCommand extends Command
         }
 
         $output->writeln(
-            sprintf('Slept %d seconds', $this->sleepDuration - $sleepCountDown),
+            sprintf('Slept %d second(s)', $this->sleepDuration - $sleepCountDown),
             OutputInterface::VERBOSITY_DEBUG
         );
     }
