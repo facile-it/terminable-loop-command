@@ -26,6 +26,6 @@ jobs:
     - name: Code Style
       script: make cs-dry-run
     - stage: Coverage
-      script: phpdbg -qrr vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
+      script: phpdbg -qrr vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml --coverage-text
       after_success:
         - php vendor/bin/php-coveralls -v
