@@ -89,6 +89,10 @@ abstract class AbstractTerminableCommand extends Command
 
     private function sleep(OutputInterface $output): void
     {
+        if (0 === $this->sleepDuration) {
+            return;
+        }
+
         $sleepCountDown = $this->sleepDuration;
 
         while (! $this->signalShutdownRequested && --$sleepCountDown) {
