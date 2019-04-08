@@ -69,7 +69,7 @@ With this small Shell+PHP combination, you can have a simple loop that:
  - sleeps for a custom amount of time
  - shuts down and restarts back again
 
-The shell script intercepts SIGTERM/SIGKILL signals so, when they are received, the PHP script is stopped ASAP but gracefully, since the execution of the body of the command is never truncated.
+The shell script intercepts SIGTERM/SIGINT signals so, when they are received, the PHP script is stopped ASAP but gracefully, since the execution of the body of the command is never truncated.
 
 This means that you can easily obtain *a daemon PHP script without running in memory issues*; if you run this *in a Kubernetes environment this will be very powerful*, since the orchestrator will take care of running the script, and at the same time it will apply the [proper restart policies](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) in case of crashes. Last but not least, the signal handling will play nice with shutdown requests, like during the roll out of a new deployment.
 
