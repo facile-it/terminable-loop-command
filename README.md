@@ -7,7 +7,7 @@
 
 A Shell+PHP combination to run Symfony console commands in loop under a daemon or Kubernetes, instead of using a long running process.
 
-This package contains a *shell script* and an *abstract Symfony Console Command class*; you need to write your command extending that class, and launch it through the shell script. Ideally, the script has to be used as a container entry point, and/or launched with a supervisor, like Docker Compose, Kubernetes, `supervisord`.
+This package contains a **shell script** and an **abstract Symfony Console Command class**; you need to write your command extending that class, and launch it through the shell script. Ideally, the script has to be used as a container entry point, and/or launched with a supervisor, like Docker Compose, Kubernetes, `supervisord`.
 
 ## Installation
 ```bash
@@ -60,7 +60,7 @@ class MyCommand extends AbstractTerminableCommand
 ```
 
 ## Why?
-When running a PHP application, you may encounter the need of a *background command* that runs continuously. You can try to write it as a long running process, but it can be prone to memory leaks and other issues.
+When running a PHP application, you may encounter the need of a **background command** that runs continuously. You can try to write it as a long running process, but it can be prone to memory leaks and other issues.
 
 With this small Shell+PHP combination, you can have a simple loop that:
 
@@ -71,7 +71,7 @@ With this small Shell+PHP combination, you can have a simple loop that:
 
 The shell script intercepts SIGTERM/SIGINT signals so, when they are received, the PHP script is stopped ASAP but gracefully, since the execution of the body of the command is never truncated.
 
-This means that you can easily obtain *a daemon PHP script without running in memory issues*; if you run this *in a Kubernetes environment this will be very powerful*, since the orchestrator will take care of running the script, and at the same time it will apply the [proper restart policies](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) in case of crashes. Last but not least, the signal handling will play nice with shutdown requests, like during the roll out of a new deployment.
+This means that you can easily obtain **a daemon PHP script without running in memory issues**; if you run this **in a Kubernetes environment this will be very powerful**, since the orchestrator will take care of running the script, and at the same time it will apply the [proper restart policies](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) in case of crashes. Last but not least, the signal handling will play nice with shutdown requests, like during the roll out of a new deployment.
 
 ## How it works
 The shell script is pretty basic, calling the desired command in a loop, until it exits with an exit code different than `0`; it also traps SIGTERM/SIGKILL signals and forwards them to the PHP process.
