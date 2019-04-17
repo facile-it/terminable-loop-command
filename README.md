@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/facile-it/terminable-loop-command/version)](https://packagist.org/packages/facile-it/terminable-loop-command)
 [![Latest Unstable Version](https://poser.pugx.org/facile-it/terminable-loop-command/v/unstable)](//packagist.org/packages/facile-it/terminable-loop-command)
 [![Build Status](https://travis-ci.org/facile-it/terminable-loop-command.svg?branch=master)](https://travis-ci.org/facile-it/terminable-loop-command)
-[![Coverage Status](https://coveralls.io/repos/github/facile-it/terminable-loop-command/badge.svg?branch=master)](https://coveralls.io/github/facile-it/terminable-loop-command?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/facile-it/terminable-loop-command/badge.svg)](https://coveralls.io/github/facile-it/terminable-loop-command?branch=master)
 
 A Shell+PHP combination to run Symfony console commands in loop under a daemon or Kubernetes, instead of using a long running process.
 
