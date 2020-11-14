@@ -34,6 +34,7 @@
         "facile-it/facile-coding-standard": "^0.4.0",
         "jangregor/phpstan-prophecy": "^0.8.1",
         "php-coveralls/php-coveralls": "^2.1",
+        "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12.55",
         "phpstan/phpstan-phpunit": "^0.12.16",
         "phpunit/phpunit": "^7.5.20 | ^8.5.3",
