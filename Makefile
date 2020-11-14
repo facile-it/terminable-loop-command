@@ -1,4 +1,4 @@
-build: cs-fix phpstan tests
+pre-commit-check: cs-fix phpstan tests
 
 cs-fix:
 	vendor/bin/php-cs-fixer fix --verbose --ansi

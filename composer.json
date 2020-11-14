@@ -26,17 +26,18 @@
         }
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-pcntl": "*",
         "symfony/console": "^3.4 | ^4.0"
     },
     "require-dev": {
-        "facile-it/facile-coding-standard": "^0.3.1",
-        "jangregor/phpstan-prophecy": "^0.3.0",
+        "facile-it/facile-coding-standard": "^0.4.0",
+        "jangregor/phpstan-prophecy": "^0.8.1",
         "php-coveralls/php-coveralls": "^2.1",
-        "phpstan/phpstan": "^0.11.5",
-        "phpstan/phpstan-phpunit": "^0.11.0",
-        "phpunit/phpunit": "^7.5 | ^8.0",
-        "symfony/phpunit-bridge": "^4.2"
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^0.12.55",
+        "phpstan/phpstan-phpunit": "^0.12.16",
+        "phpunit/phpunit": "^7.5.20 | ^8.5.3",
+        "symfony/phpunit-bridge": "^5.1"
     }
 }
