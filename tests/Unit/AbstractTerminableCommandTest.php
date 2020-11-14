@@ -85,7 +85,7 @@ class AbstractTerminableCommandTest extends TestCase
             /** @var int */
             private $signal;
 
-            public function __construct($signal)
+            public function __construct(int $signal)
             {
                 parent::__construct('dummy:command');
                 $this->signal = $signal;
@@ -138,6 +138,9 @@ class AbstractTerminableCommandTest extends TestCase
         $this->assertSame(143, $exitCode);
     }
 
+    /**
+     * @return array{0: int}[]
+     */
     public function signalProvider(): array
     {
         return [

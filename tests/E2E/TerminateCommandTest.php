@@ -31,6 +31,9 @@ class TerminateCommandTest extends TestCase
         $this->assertSame(1, $process->getExitCode());
     }
 
+    /**
+     * @return string[][][]
+     */
     public function commandLineProvider(): array
     {
         return [
@@ -104,6 +107,9 @@ class TerminateCommandTest extends TestCase
         $this->assertSame(143, $process->getExitCode());
     }
 
+    /**
+     * @param Process<string> $process
+     */
     private function assertCommandIsFound(Process $process): void
     {
         $this->assertNotEquals(127, $process->getExitCode(), 'Command not found: ' . $process->getCommandLine());

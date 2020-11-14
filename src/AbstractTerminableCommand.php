@@ -53,7 +53,7 @@ abstract class AbstractTerminableCommand extends Command
 
     abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
 
-    public function handleSignal($signal): void
+    public function handleSignal(int $signal): void
     {
         switch ($signal) {
             // Shutdown signals
