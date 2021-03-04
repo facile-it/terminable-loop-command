@@ -5,6 +5,7 @@ $additionalRules = [
     'declare_strict_types' => true,
     'indentation_type' => true,
     'no_superfluous_phpdoc_tags' => true,
+    'phpdoc_to_comment' => false,
     'phpdoc_trim_consecutive_blank_line_separation' => true,
 ];
 $rulesProvider = new Facile\CodingStandards\Rules\CompositeRulesProvider([

@@ -30,7 +30,7 @@ abstract class AbstractTerminableCommand extends Command
     {
         $this->trapSignals();
 
-        $output->writeln('Starting ' . $this->getName(), OutputInterface::VERBOSITY_VERBOSE);
+        $output->writeln('Starting ' . ($this->getName() ?? static::class), OutputInterface::VERBOSITY_VERBOSE);
 
         if ($this->signalShutdownRequested) {
             $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL);
@@ -42,6 +42,7 @@ abstract class AbstractTerminableCommand extends Command
 
         $this->sleep($output);
 
+        /** @psalm-suppress DocblockTypeContradiction */
         if ($this->signalShutdownRequested) {
             $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
 
