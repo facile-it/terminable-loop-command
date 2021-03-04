@@ -16,7 +16,7 @@ jobs:
           - description: Code style
             script: vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run
           - description: PHPStan
-            script: bin/phpstan analyze
+            script: vendor/bin/phpstan analyze
 
     name: ${{ matrix.description }}
     runs-on: ubuntu-latest
