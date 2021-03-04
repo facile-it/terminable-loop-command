@@ -19,7 +19,7 @@ jobs:
           - '7.4'
           - '7.3'
           - '7.2'
-        composer_option: ['']
+        symfony: [false]
         experimental: [false]
         include:
 #          - description: 'nightly'
