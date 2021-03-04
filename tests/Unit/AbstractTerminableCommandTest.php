@@ -7,12 +7,15 @@ namespace Facile\TerminableLoop\Tests\Unit;
 use Facile\TerminableLoop\AbstractTerminableCommand;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AbstractTerminableCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     public static function setUpBeforeClass(): void
     {
         ClockMock::register(AbstractTerminableCommand::class);
