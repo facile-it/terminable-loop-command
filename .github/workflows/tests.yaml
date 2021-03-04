@@ -16,15 +16,13 @@ jobs:
     strategy:
       matrix:
         php:
+          - '8.0'
           - '7.4'
           - '7.3'
           - '7.2'
         symfony: ['']
         experimental: [false]
         include:
-#          - description: 'nightly'
-#            os: 'ubuntu-latest'
-#            php: '8.0'
           - symfony: '^4.4'
             os: 'ubuntu-latest'
             php: '7.4'
