@@ -16,15 +16,12 @@ jobs:
     strategy:
       matrix:
         php:
+          - '8.0'
           - '7.4'
           - '7.3'
-          - '7.2'
         symfony: ['']
         experimental: [false]
         include:
-#          - description: 'nightly'
-#            os: 'ubuntu-latest'
-#            php: '8.0'
           - symfony: '^4.4'
             os: 'ubuntu-latest'
             php: '7.4'
@@ -33,7 +30,7 @@ jobs:
             php: '7.4'
           - description: 'Prefer lowest'
             os: 'ubuntu-latest'
-            php: '7.2'
+            php: '7.3'
             dependencies: '--prefer-lowest'
             env:
               SYMFONY_DEPRECATIONS_HELPER: 'disabled'
@@ -41,6 +38,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2 # needed by codecov sometimes
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:

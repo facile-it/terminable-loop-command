@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Facile\TerminableLoop\Tests\E2E;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\Process\Process;
 
 class TerminateCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     private const BASH_COMMAND = __DIR__ . '/../../bin/terminable-loop-command.sh';
     private const CONSOLE_COMMAND = __DIR__ . '/../Stub/console';
     private const STUB_COMMAND = 'stub:terminable:sleep';
