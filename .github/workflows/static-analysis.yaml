@@ -17,6 +17,8 @@ jobs:
             script: vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run
           - description: PHPStan
             script: vendor/bin/phpstan analyze
+          - description: Psalm
+            script: vendor/bin/psalm
 
     name: ${{ matrix.description }}
     runs-on: ubuntu-latest
