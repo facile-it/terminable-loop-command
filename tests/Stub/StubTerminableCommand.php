@@ -19,8 +19,8 @@ class StubTerminableCommand extends AbstractTerminableCommand
 
     public function configure(): void
     {
-        $this->addOption('stub', null, InputOption::VALUE_REQUIRED, 'Stubbed execution duration time', 0);
-        $this->addOption('sleep', null, InputOption::VALUE_REQUIRED, 'Sleep duration time', 0);
+        $this->addOption('stub', null, InputOption::VALUE_REQUIRED, 'Stubbed execution duration time', '0');
+        $this->addOption('sleep', null, InputOption::VALUE_REQUIRED, 'Sleep duration time', '0');
     }
 
     protected function commandBody(InputInterface $input, OutputInterface $output): int
