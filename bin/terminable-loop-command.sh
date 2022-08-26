@@ -15,6 +15,8 @@ fi
 if [ -z ${SECONDS_TO_WAIT+x} ]; then SECONDS_TO_WAIT=1; fi;
 if [ -z ${SECONDS_TO_WAIT_MAX+x} ]; then SECONDS_TO_WAIT_MAX=64; fi;
 
+SECONDS=$SECONDS_TO_WAIT
+
 echo "Starting command: $@";
 
 _term() {
@@ -48,7 +50,7 @@ while true; do
       sleep $SECONDS
 
       if [ $SECONDS -lt $SECONDS_TO_WAIT_MAX ]; then
-        $SECONDS=$(($SECONDS*2))
+        SECONDS=$(($SECONDS*2))
       fi;
 
       continue;
