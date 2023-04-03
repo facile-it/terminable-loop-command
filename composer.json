@@ -4,7 +4,11 @@
     "type": "library",
     "license": "MIT",
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "facile-it/facile-coding-standard": true,
+            "phpstan/extension-installer": true
+        }
     },
     "bin": [
         "bin/terminable-loop-command.sh"
@@ -31,7 +35,7 @@
         "symfony/console": "^4.4 | ^5.4 | ^6.0"
     },
     "require-dev": {
-        "facile-it/facile-coding-standard": "^0.4.0",
+        "facile-it/facile-coding-standard": "^0.5.2",
         "jangregor/phpstan-prophecy": "^0.8.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12.55",
