@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
  * ...
 
+## 1.1.1 [2023-04-03]
+ * Drop `phpspec/prophecy-phpunit` as a dependency, move it to `require-dev`
+
 ## 1.1.0 [2021-03-04]
  * Bump minimum PHP required version to 7.3 (#1)
  * Add PHP 8 support (#6)  
