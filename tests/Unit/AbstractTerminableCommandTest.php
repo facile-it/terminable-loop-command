@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -39,7 +40,6 @@ class AbstractTerminableCommandTest extends TestCase
             }
         };
 
-        $input = $this->prophesize(InputInterface::class);
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
             ->shouldBeCalledTimes(1);
@@ -50,7 +50,7 @@ class AbstractTerminableCommandTest extends TestCase
 
         ClockMock::withClockMock(true);
         $start = ClockMock::time();
-        $exitCode = $stubCommand->run($input->reveal(), $output->reveal());
+        $exitCode = $stubCommand->run(new ArrayInput([]), $output->reveal());
         $end = ClockMock::time();
 
         $this->assertSame(0, $exitCode);
@@ -69,14 +69,13 @@ class AbstractTerminableCommandTest extends TestCase
             }
         };
 
-        $input = $this->prophesize(InputInterface::class);
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
             ->shouldBeCalledTimes(1);
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $stubCommand->run($input->reveal(), $output->reveal());
+        $stubCommand->run(new ArrayInput([]), $output->reveal());
     }
 
     /**
@@ -102,14 +101,13 @@ class AbstractTerminableCommandTest extends TestCase
             }
         };
 
-        $input = $this->prophesize(InputInterface::class);
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
             ->shouldBeCalledTimes(1);
         $output->writeln('Signal received, terminating with exit code 143', OutputInterface::VERBOSITY_NORMAL)
             ->shouldBeCalledTimes(1);
 
-        $exitCode = $stubCommand->run($input->reveal(), $output->reveal());
+        $exitCode = $stubCommand->run(new ArrayInput([]), $output->reveal());
 
         $this->assertSame(143, $exitCode);
     }
@@ -126,7 +124,6 @@ class AbstractTerminableCommandTest extends TestCase
             }
         };
 
-        $input = $this->prophesize(InputInterface::class);
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
             ->shouldBeCalledTimes(1)
@@ -136,7 +133,7 @@ class AbstractTerminableCommandTest extends TestCase
         $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL)
             ->shouldBeCalledTimes(1);
 
-        $exitCode = $stubCommand->run($input->reveal(), $output->reveal());
+        $exitCode = $stubCommand->run(new ArrayInput([]), $output->reveal());
 
         $this->assertSame(143, $exitCode);
     }

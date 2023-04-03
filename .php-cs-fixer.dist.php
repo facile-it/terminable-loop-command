@@ -13,11 +13,11 @@ $rulesProvider = new Facile\CodingStandards\Rules\CompositeRulesProvider([
     new Facile\CodingStandards\Rules\ArrayRulesProvider($additionalRules),
 ]);
 
-$config = PhpCsFixer\Config::create();
+$config = new PhpCsFixer\Config();
 $config->setRules($rulesProvider->getRules());
 $config->setRiskyAllowed(true);
 
-$finder = PhpCsFixer\Finder::create();
+$finder = new PhpCsFixer\Finder();
 
 $autoloadPathProvider = new Facile\CodingStandards\AutoloadPathProvider();
 $finder->in($autoloadPathProvider->getPaths());

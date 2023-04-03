@@ -8,7 +8,7 @@ on:
 
 jobs:
   Tests:
-    name: PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}
+    name: PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}${{ matrix.dependencies }}
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental == true }}
     env:
@@ -16,21 +16,22 @@ jobs:
     strategy:
       matrix:
         php:
+          - '8.2'
+          - '8.1'
           - '8.0'
           - '7.4'
-          - '7.3'
         symfony: ['']
         experimental: [false]
         include:
-          - symfony: '^4.4'
+          - symfony: '^5.4'
             os: 'ubuntu-latest'
             php: '7.4'
-          - symfony: '^3.4'
+          - symfony: '^4.4'
             os: 'ubuntu-latest'
             php: '7.4'
           - description: 'Prefer lowest'
             os: 'ubuntu-latest'
-            php: '7.3'
+            php: '7.4'
             dependencies: '--prefer-lowest'
             env:
               SYMFONY_DEPRECATIONS_HELPER: 'disabled'
