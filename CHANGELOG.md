@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
  * ...
+ * Drop support to PHP 7.3
+ * Drop support to EOL Symfony versions (3.x, 4.0 to 4.3, 5.0 to 5.3)
 
 ## 1.1.1 [2023-04-03]
  * Drop `phpspec/prophecy-phpunit` as a dependency, move it to `require-dev`
