@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
  * ...
 
+## 1.2.1 [2023-08-23]
+* Adds support for SIGQUIT signal (needed to support php-fpm-alpine docker images which overrides STOPSIGNAL ([Official Dockerfile](https://github.com/docker-library/php/blob/master/8.2/alpine3.18/fpm/Dockerfile#L259)))
+
 ## 1.2.0 [2023-04-03]
  * Drop support to PHP 7.3
  * Drop support to EOL Symfony versions (3.x, 4.0 to 4.3, 5.0 to 5.3)
