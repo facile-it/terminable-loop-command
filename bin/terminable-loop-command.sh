@@ -12,8 +12,8 @@ _term() {
   wait $CHILD
 }
 
-trap _term TERM QUIT
-trap _term SIGTERM SIGQUIT
+trap _term TERM SIGTERM
+trap _term QUIT SIGQUIT
 
 while true; do
     $@ &
