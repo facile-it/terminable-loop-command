@@ -58,7 +58,10 @@ class TerminateCommandTest extends TestCase
         ];
     }
 
-    public function testSigTermDuringCommandBody(): void
+    /**
+     * @dataProvider provideSignals
+     */
+    public function testSignalsDuringCommandBody(int $signal, int $exitCode): void
     {
         $process = new Process([
             self::BASH_COMMAND,
@@ -73,7 +76,7 @@ class TerminateCommandTest extends TestCase
         $process->start();
 
         sleep(1);
-        $process->signal(SIGTERM);
+        $process->signal($signal);
 
         $process->wait();
 
@@ -81,10 +84,13 @@ class TerminateCommandTest extends TestCase
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
         $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
         $this->assertStringContainsString('Slept 0 second(s)', $process->getOutput());
-        $this->assertSame(143, $process->getExitCode());
+        $this->assertSame($exitCode, $process->getExitCode());
     }
 
-    public function testSigTermDuringSleep(): void
+    /**
+     * @dataProvider provideSignals
+     */
+    public function testSigTermDuringSleep(int $signal, int $exitCode): void
     {
         $process = new Process([
             self::BASH_COMMAND,
@@ -99,15 +105,26 @@ class TerminateCommandTest extends TestCase
         $process->start();
 
         sleep(1);
-        $process->signal(SIGTERM);
+        $process->signal($signal);
 
         $process->wait();
 
         $this->assertCommandIsFound($process);
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
         $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
-        $this->assertMatchesRegularExpression('/Slept (0|1) second\(s\)/', $process->getOutput());
-        $this->assertSame(143, $process->getExitCode());
+        $this->assertRegExp('/Slept (0|1) second\(s\)/', $process->getOutput());
+        $this->assertSame($exitCode, $process->getExitCode());
+    }
+
+    /**
+     * @return array<array<int>>
+     */
+    public function provideSignals(): array
+    {
+        return [
+            [SIGTERM, 143],
+            [SIGQUIT, 131],
+        ];
     }
 
     /**
