@@ -44,9 +44,5 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "symfony/phpunit-bridge": "^5.2",
         "vimeo/psalm": "^4.6"
-    },
-    "scripts": {
-        "cs-check": "php-cs-fixer fix --dry-run --diff",
-        "cs-fix": "php-cs-fixer fix --diff"
     }
 }
