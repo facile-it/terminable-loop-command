@@ -117,7 +117,7 @@ class TerminateCommandTest extends TestCase
     }
 
     /**
-     * @return array<array<int>>
+     * @return array<array{int,int}>
      */
     public function provideSignals(): array
     {
