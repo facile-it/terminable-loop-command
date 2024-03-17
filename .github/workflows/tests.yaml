@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         php:
+          - '8.3'
           - '8.2'
           - '8.1'
           - '8.0'
@@ -25,6 +26,9 @@ jobs:
         symfony: ['']
         experimental: [false]
         include:
+          - symfony: '^6.4'
+            os: 'ubuntu-latest'
+            php: '7.4'
           - symfony: '^5.4'
             os: 'ubuntu-latest'
             php: '7.4'
