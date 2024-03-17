@@ -35,7 +35,7 @@
         "symfony/console": "^4.4 | ^5.4 | ^6.0"
     },
     "require-dev": {
-        "facile-it/facile-coding-standard": "^0.5.2",
+        "facile-it/facile-coding-standard": "^1.2",
         "jangregor/phpstan-prophecy": "^1.0.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.10",
