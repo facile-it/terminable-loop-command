@@ -28,7 +28,7 @@ jobs:
         include:
           - symfony: '^6.4'
             os: 'ubuntu-latest'
-            php: '7.4'
+            php: '8.2'
           - symfony: '^5.4'
             os: 'ubuntu-latest'
             php: '7.4'
