@@ -43,6 +43,6 @@
         "phpunit/phpunit": "^9.6.6",
         "phpspec/prophecy-phpunit": "^2.0",
         "symfony/phpunit-bridge": "^6.4",
-        "vimeo/psalm": "^4.6"
+        "vimeo/psalm": "^4.6 || ^5.0"
     }
 }
