@@ -41,7 +41,7 @@ class StubTerminableCommand extends AbstractTerminableCommand
             $output->writeln('No sleep');
         }
 
-        return 1; //force exit from bash
+        return 1; // force exit from bash
     }
 
     /**

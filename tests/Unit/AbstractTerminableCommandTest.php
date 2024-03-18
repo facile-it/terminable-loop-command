@@ -29,7 +29,7 @@ class AbstractTerminableCommandTest extends TestCase
 
     public function testSetSleepDuration(): void
     {
-        $stubCommand = new class('dummy:command') extends AbstractTerminableCommand {
+        $stubCommand = new class ('dummy:command') extends AbstractTerminableCommand {
             protected function commandBody(InputInterface $input, OutputInterface $output): int
             {
                 $this->setSleepDuration(100);
@@ -60,7 +60,7 @@ class AbstractTerminableCommandTest extends TestCase
 
     public function testSetSleepDurationWithNegativeValue(): void
     {
-        $stubCommand = new class('dummy:command') extends AbstractTerminableCommand {
+        $stubCommand = new class ('dummy:command') extends AbstractTerminableCommand {
             protected function commandBody(InputInterface $input, OutputInterface $output): int
             {
                 $this->setSleepDuration(-1);
@@ -83,7 +83,7 @@ class AbstractTerminableCommandTest extends TestCase
      */
     public function testReceiveSignalDuringCommandBody(int $signal): void
     {
-        $stubCommand = new class($signal) extends AbstractTerminableCommand {
+        $stubCommand = new class ($signal) extends AbstractTerminableCommand {
             /** @var int */
             private $signal;
 
@@ -117,7 +117,7 @@ class AbstractTerminableCommandTest extends TestCase
      */
     public function testReceiveSignalBeforeCommandBody(int $signal): void
     {
-        $stubCommand = new class('dummy:command') extends AbstractTerminableCommand {
+        $stubCommand = new class ('dummy:command') extends AbstractTerminableCommand {
             protected function commandBody(InputInterface $input, OutputInterface $output): int
             {
                 return 0;
