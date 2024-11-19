@@ -112,7 +112,7 @@ class TerminateCommandTest extends TestCase
         $this->assertCommandIsFound($process);
         $this->assertStringContainsString('Starting ' . self::STUB_COMMAND, $process->getOutput());
         $this->assertStringNotContainsString('Signal received, skipping execution', $process->getOutput());
-        $this->assertRegExp('/Slept (0|1) second\(s\)/', $process->getOutput());
+        $this->assertMatchesRegularExpression('/Slept (0|1) second\(s\)/', $process->getOutput());
         $this->assertSame($exitCode, $process->getExitCode());
     }
 
