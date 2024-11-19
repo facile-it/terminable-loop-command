@@ -18,7 +18,7 @@ abstract class AbstractTerminableCommand extends Command
     /** @var bool */
     private $signalShutdownRequested;
 
-    public function __construct(string $name = null)
+    public function __construct(?string $name = null)
     {
         $this->sleepDuration = 0;
         $this->signalShutdownRequested = false;
