@@ -60,8 +60,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - description: Validate composer.json
-            script: composer validate
+          - description: Composer checks
+            script: vendor/bin/composer-dependency-analyser && composer validate
           - description: Code style
             script: vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run
           - description: Rector
