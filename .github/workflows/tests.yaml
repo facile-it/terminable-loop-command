@@ -27,17 +27,15 @@ jobs:
         symfony: ['']
         experimental: [false]
         include:
+          - symfony: '^7'
+            php: '8.4'
           - symfony: '^6.4'
-            os: 'ubuntu-latest'
             php: '8.2'
           - symfony: '^5.4'
-            os: 'ubuntu-latest'
             php: '7.4'
           - symfony: '^4.4'
-            os: 'ubuntu-latest'
             php: '7.4'
           - description: 'Prefer lowest'
-            os: 'ubuntu-latest'
             php: '7.4'
             dependencies: '--prefer-lowest'
             env:
