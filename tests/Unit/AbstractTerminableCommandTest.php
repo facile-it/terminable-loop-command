@@ -78,9 +78,7 @@ class AbstractTerminableCommandTest extends TestCase
         $stubCommand->run(new ArrayInput([]), $output->reveal());
     }
 
-    /**
-     * @dataProvider signalProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('signalProvider')]
     public function testReceiveSignalDuringCommandBody(int $signal): void
     {
         $stubCommand = new class ($signal) extends AbstractTerminableCommand {
@@ -112,9 +110,7 @@ class AbstractTerminableCommandTest extends TestCase
         $this->assertSame(143, $exitCode);
     }
 
-    /**
-     * @dataProvider signalProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('signalProvider')]
     public function testReceiveSignalBeforeCommandBody(int $signal): void
     {
         $stubCommand = $this->createStubTerminableCommand();
@@ -133,9 +129,7 @@ class AbstractTerminableCommandTest extends TestCase
         $this->assertSame(143, $exitCode);
     }
 
-    /**
-     * @dataProvider signalProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('signalProvider')]
     public function testGetSubscribedSignals(int $signal): void
     {
         $stubCommand = $this->createStubTerminableCommand();

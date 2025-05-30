@@ -14,6 +14,7 @@ return RectorConfig::configure()
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0)
+    ->withAttributesSets(phpunit: true)
     ->withSets([
         \Rector\PHPUnit\Set\PHPUnitSetList::PHPUNIT_100,
     ])
