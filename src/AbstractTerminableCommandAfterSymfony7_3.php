@@ -54,7 +54,7 @@ if (! class_exists(AbstractTerminableCommand::class)) {
 
         abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
 
-        public function handleSignal(int $signal, $previousExitCode = 0): false
+        public function handleSignal(int $signal, int|false $previousExitCode = 0): false
         {
             switch ($signal) {
                 // Shutdown signals
