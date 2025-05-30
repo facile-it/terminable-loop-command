@@ -13,6 +13,6 @@ phpstan:
 	vendor/bin/phpstan analyse
 
 tests:
-	vendor/bin/phpunit --verbose
+	vendor/bin/phpunit
 
 .PHONY: tests

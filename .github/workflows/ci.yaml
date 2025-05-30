@@ -1,4 +1,4 @@
-name: Tests
+name: CI
 
 on:
   pull_request: null
@@ -10,7 +10,7 @@ on:
 
 jobs:
   Tests:
-    name: PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}${{ matrix.dependencies }}
+    name: PHP ${{ matrix.php }} Symfony ${{ matrix.symfony }}${{ matrix.description }}
     runs-on: ubuntu-latest
     env:
       SYMFONY_DEPRECATIONS_HELPER: 'max[self]=0'
@@ -26,8 +26,7 @@ jobs:
             php: '8.3'
           - symfony: '^6.4'
             php: '8.2'
-          - description: 'Prefer lowest'
-            php: '8.2'
+          - php: '8.2'
             dependencies: '--prefer-lowest'
             env:
               SYMFONY_DEPRECATIONS_HELPER: 'disabled'
@@ -57,3 +56,30 @@ jobs:
           files: './coverage.xml'
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
+  SA:
+    strategy:
+      matrix:
+        include:
+          - description: Validate composer.json
+            script: composer validate
+          - description: Code style
+            script: vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run
+          - description: Rector
+            script: vendor/bin/rector --ansi --dry-run
+          - description: PHPStan
+            script: vendor/bin/phpstan analyze
+          - description: Psalm
+            script: vendor/bin/psalm
+
+    name: ${{ matrix.description }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v3"
+      - run: ${{ matrix.script }}

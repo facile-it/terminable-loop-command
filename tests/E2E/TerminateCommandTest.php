@@ -17,10 +17,9 @@ class TerminateCommandTest extends TestCase
     private const STUB_COMMAND = 'stub:terminable:sleep';
 
     /**
-     * @dataProvider commandLineProvider
-     *
      * @param string[] $commandLine
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('commandLineProvider')]
     public function testStubCommand(array $commandLine): void
     {
         $process = new Process($commandLine);
@@ -37,7 +36,7 @@ class TerminateCommandTest extends TestCase
     /**
      * @return string[][][]
      */
-    public function commandLineProvider(): array
+    public static function commandLineProvider(): array
     {
         return [
             [
@@ -58,9 +57,7 @@ class TerminateCommandTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideSignals
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSignals')]
     public function testSignalsDuringCommandBody(int $signal, int $exitCode): void
     {
         $process = new Process([
@@ -87,9 +84,7 @@ class TerminateCommandTest extends TestCase
         $this->assertSame($exitCode, $process->getExitCode());
     }
 
-    /**
-     * @dataProvider provideSignals
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSignals')]
     public function testSigTermDuringSleep(int $signal, int $exitCode): void
     {
         $process = new Process([
@@ -119,7 +114,7 @@ class TerminateCommandTest extends TestCase
     /**
      * @return array<array{int,int}>
      */
-    public function provideSignals(): array
+    public static function provideSignals(): array
     {
         return [
             [SIGTERM, 143],
