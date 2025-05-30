@@ -40,9 +40,9 @@
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "2.1.17",
         "phpstan/phpstan-phpunit": "2.0.6",
-        "phpunit/phpunit": "^9.6.6",
+        "phpunit/phpunit": "^10 || ^11 || ^12",
         "rector/rector": "2.0.17",
         "symfony/phpunit-bridge": "^6.4 || ^7.0",
-        "vimeo/psalm": "^4.6 || ^5.0"
+        "vimeo/psalm": "^6"
     }
 }
