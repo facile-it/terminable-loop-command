@@ -9,18 +9,8 @@ use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-if (
-    PHP_VERSION_ID >= 8_02_00
-    && interface_exists(SignalableCommandInterface::class)
-    && in_array(
-        SignalableCommandInterface::class,
-        class_implements(Command::class),
-        true
-    )
-) {
-    require_once __DIR__ . '/AbstractTerminableCommandAfterSymfony7_3.php';
-} else {
-    abstract class AbstractTerminableCommand extends Command
+if (! class_exists(AbstractTerminableCommand::class)) {
+    abstract class AbstractTerminableCommand extends Command implements SignalableCommandInterface
     {
         private const REQUEST_TO_TERMINATE = 143;
 
@@ -40,8 +30,6 @@ if (
 
         final protected function execute(InputInterface $input, OutputInterface $output): int
         {
-            $this->trapSignals();
-
             $output->writeln('Starting ' . ($this->getName() ?? static::class), OutputInterface::VERBOSITY_VERBOSE);
 
             if ($this->signalShutdownRequested) {
@@ -66,24 +54,27 @@ if (
 
         abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
 
-        public function handleSignal(int $signal): void
+        public function handleSignal(int $signal, int|false $previousExitCode = 0): false
         {
             switch ($signal) {
                 // Shutdown signals
                 case SIGTERM:
                 case SIGINT:
                     $this->signalShutdownRequested = true;
-                    break;
             }
+
+            return false;
         }
 
-        private function trapSignals(): void
+        /**
+         * @return list<int>
+         */
+        public function getSubscribedSignals(): array
         {
-            pcntl_async_signals(true);
-
-            // Add the signal handler
-            pcntl_signal(SIGTERM, [$this, 'handleSignal']);
-            pcntl_signal(SIGINT, [$this, 'handleSignal']);
+            return [
+                SIGTERM,
+                SIGINT,
+            ];
         }
 
         protected function getSleepDuration(): int

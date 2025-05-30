@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
+use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -117,12 +118,7 @@ class AbstractTerminableCommandTest extends TestCase
      */
     public function testReceiveSignalBeforeCommandBody(int $signal): void
     {
-        $stubCommand = new class ('dummy:command') extends AbstractTerminableCommand {
-            protected function commandBody(InputInterface $input, OutputInterface $output): int
-            {
-                return 0;
-            }
-        };
+        $stubCommand = $this->createStubTerminableCommand();
 
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
@@ -139,6 +135,20 @@ class AbstractTerminableCommandTest extends TestCase
     }
 
     /**
+     * @dataProvider signalProvider
+     */
+    public function testGetSubscribedSignals(int $signal): void
+    {
+        $stubCommand = $this->createStubTerminableCommand();
+
+        if (! interface_exists(SignalableCommandInterface::class) || ! $stubCommand instanceof SignalableCommandInterface) {
+            $this->markTestSkipped('This test requires the Symfony 7.3+ implementation');
+        }
+
+        $this->assertContains($signal, $stubCommand->getSubscribedSignals(), 'Signal not subscribed to');
+    }
+
+    /**
      * @return array{0: int}[]
      */
     public function signalProvider(): array
@@ -147,5 +157,15 @@ class AbstractTerminableCommandTest extends TestCase
             [SIGINT],
             [SIGTERM],
         ];
+    }
+
+    private function createStubTerminableCommand(): AbstractTerminableCommand
+    {
+        return new class ('dummy:command') extends AbstractTerminableCommand {
+            protected function commandBody(InputInterface $input, OutputInterface $output): int
+            {
+                return 0;
+            }
+        };
     }
 }

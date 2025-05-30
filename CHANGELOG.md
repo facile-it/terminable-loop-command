@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
  * ...
 
+## 1.2.4 [2025-05-30]
+* Fix support for Symfony 7.3 (#23)
+
 ## 1.2.3 [2024-11-19]
 * Add PHP 8.4 support (#19)
 
