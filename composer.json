@@ -35,10 +35,10 @@
     },
     "require-dev": {
         "facile-it/facile-coding-standard": "^1.2",
-        "jangregor/phpstan-prophecy": "^1.0.0",
+        "jangregor/phpstan-prophecy": "^2.0",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^1.10",
-        "phpstan/phpstan-phpunit": "^1.3",
+        "phpstan/phpstan": "^2",
+        "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^9.6.6",
         "phpspec/prophecy-phpunit": "^2.0",
         "symfony/phpunit-bridge": "^6.4 || ^7.0",
