@@ -9,102 +9,104 @@ use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class AbstractTerminableCommand extends Command implements SignalableCommandInterface
-{
-    private const REQUEST_TO_TERMINATE = 143;
-
-    /** @var int */
-    private $sleepDuration;
-
-    /** @var bool */
-    private $signalShutdownRequested;
-
-    public function __construct(?string $name = null)
+if (! class_exists(AbstractTerminableCommand::class)) {
+    abstract class AbstractTerminableCommand extends Command implements SignalableCommandInterface
     {
-        $this->sleepDuration = 0;
-        $this->signalShutdownRequested = false;
+        private const REQUEST_TO_TERMINATE = 143;
 
-        parent::__construct($name);
-    }
+        /** @var int */
+        private $sleepDuration;
 
-    final protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $output->writeln('Starting ' . ($this->getName() ?? static::class), OutputInterface::VERBOSITY_VERBOSE);
+        /** @var bool */
+        private $signalShutdownRequested;
 
-        if ($this->signalShutdownRequested) {
-            $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL);
+        public function __construct(?string $name = null)
+        {
+            $this->sleepDuration = 0;
+            $this->signalShutdownRequested = false;
 
-            return self::REQUEST_TO_TERMINATE;
+            parent::__construct($name);
         }
 
-        $exitCode = $this->commandBody($input, $output);
+        final protected function execute(InputInterface $input, OutputInterface $output): int
+        {
+            $output->writeln('Starting ' . ($this->getName() ?? static::class), OutputInterface::VERBOSITY_VERBOSE);
 
-        $this->sleep($output);
+            if ($this->signalShutdownRequested) {
+                $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL);
 
-        /** @psalm-suppress DocblockTypeContradiction */
-        if ($this->signalShutdownRequested) {
-            $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
+                return self::REQUEST_TO_TERMINATE;
+            }
 
-            return self::REQUEST_TO_TERMINATE;
+            $exitCode = $this->commandBody($input, $output);
+
+            $this->sleep($output);
+
+            /** @psalm-suppress DocblockTypeContradiction */
+            if ($this->signalShutdownRequested) {
+                $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
+
+                return self::REQUEST_TO_TERMINATE;
+            }
+
+            return $exitCode;
         }
 
-        return $exitCode;
-    }
+        abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
 
-    abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
+        public function handleSignal(int $signal, $previousExitCode = 0): false
+        {
+            switch ($signal) {
+                // Shutdown signals
+                case SIGTERM:
+                case SIGINT:
+                    $this->signalShutdownRequested = true;
+            }
 
-    public function handleSignal(int $signal, $previousExitCode = 0): false
-    {
-        switch ($signal) {
-            // Shutdown signals
-            case SIGTERM:
-            case SIGINT:
-                $this->signalShutdownRequested = true;
+            return false;
         }
 
-        return false;
-    }
-
-    /**
-     * @return list<int>
-     */
-    public function getSubscribedSignals(): array
-    {
-        return [
-            SIGTERM,
-            SIGINT,
-        ];
-    }
-
-    protected function getSleepDuration(): int
-    {
-        return $this->sleepDuration;
-    }
-
-    protected function setSleepDuration(int $sleepDuration): void
-    {
-        if ($sleepDuration < 0) {
-            throw new \InvalidArgumentException('Invalid timeout provided to ' . __METHOD__);
+        /**
+         * @return list<int>
+         */
+        public function getSubscribedSignals(): array
+        {
+            return [
+                SIGTERM,
+                SIGINT,
+            ];
         }
 
-        $this->sleepDuration = $sleepDuration;
-    }
-
-    private function sleep(OutputInterface $output): void
-    {
-        if (0 === $this->sleepDuration) {
-            return;
+        protected function getSleepDuration(): int
+        {
+            return $this->sleepDuration;
         }
 
-        $sleepCountDown = $this->sleepDuration;
+        protected function setSleepDuration(int $sleepDuration): void
+        {
+            if ($sleepDuration < 0) {
+                throw new \InvalidArgumentException('Invalid timeout provided to ' . __METHOD__);
+            }
 
-        while (! $this->signalShutdownRequested && --$sleepCountDown) {
-            sleep(1);
+            $this->sleepDuration = $sleepDuration;
         }
 
-        $output->writeln(
-            sprintf('Slept %d second(s)', $this->sleepDuration - $sleepCountDown),
-            OutputInterface::VERBOSITY_DEBUG
-        );
+        private function sleep(OutputInterface $output): void
+        {
+            if (0 === $this->sleepDuration) {
+                return;
+            }
+
+            $sleepCountDown = $this->sleepDuration;
+
+            while (! $this->signalShutdownRequested && --$sleepCountDown) {
+                sleep(1);
+            }
+
+            $output->writeln(
+                sprintf('Slept %d second(s)', $this->sleepDuration - $sleepCountDown),
+                OutputInterface::VERBOSITY_DEBUG
+            );
+        }
     }
 }
