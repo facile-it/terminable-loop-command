@@ -17,6 +17,8 @@ jobs:
             script: composer validate
           - description: Code style
             script: vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run
+          - description: Rector
+            script: vendor/bin/rector --ansi --dry-run
           - description: PHPStan
             script: vendor/bin/phpstan analyze
           - description: Psalm
