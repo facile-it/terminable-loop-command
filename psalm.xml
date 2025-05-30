@@ -10,7 +10,6 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
-            <file name="src/AbstractTerminableCommandAfterSymfony7_3.php" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

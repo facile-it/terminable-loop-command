@@ -9,113 +9,102 @@ use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-if (
-    PHP_VERSION_ID >= 8_02_00
-    && interface_exists(SignalableCommandInterface::class)
-    && in_array(
-        SignalableCommandInterface::class,
-        class_implements(Command::class),
-        true
-    )
-) {
-    require_once __DIR__ . '/AbstractTerminableCommandAfterSymfony7_3.php';
-} else {
-    abstract class AbstractTerminableCommand extends Command
+abstract class AbstractTerminableCommand extends Command implements SignalableCommandInterface
+{
+    private const REQUEST_TO_TERMINATE = 143;
+
+    /** @var int */
+    private $sleepDuration;
+
+    /** @var bool */
+    private $signalShutdownRequested;
+
+    public function __construct(?string $name = null)
     {
-        private const REQUEST_TO_TERMINATE = 143;
+        $this->sleepDuration = 0;
+        $this->signalShutdownRequested = false;
 
-        /** @var int */
-        private $sleepDuration;
+        parent::__construct($name);
+    }
 
-        /** @var bool */
-        private $signalShutdownRequested;
+    final protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $output->writeln('Starting ' . ($this->getName() ?? static::class), OutputInterface::VERBOSITY_VERBOSE);
 
-        public function __construct(?string $name = null)
-        {
-            $this->sleepDuration = 0;
-            $this->signalShutdownRequested = false;
+        if ($this->signalShutdownRequested) {
+            $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL);
 
-            parent::__construct($name);
+            return self::REQUEST_TO_TERMINATE;
         }
 
-        final protected function execute(InputInterface $input, OutputInterface $output): int
-        {
-            $this->trapSignals();
+        $exitCode = $this->commandBody($input, $output);
 
-            $output->writeln('Starting ' . ($this->getName() ?? static::class), OutputInterface::VERBOSITY_VERBOSE);
+        $this->sleep($output);
 
-            if ($this->signalShutdownRequested) {
-                $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL);
+        /** @psalm-suppress DocblockTypeContradiction */
+        if ($this->signalShutdownRequested) {
+            $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
 
-                return self::REQUEST_TO_TERMINATE;
-            }
-
-            $exitCode = $this->commandBody($input, $output);
-
-            $this->sleep($output);
-
-            /** @psalm-suppress DocblockTypeContradiction */
-            if ($this->signalShutdownRequested) {
-                $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
-
-                return self::REQUEST_TO_TERMINATE;
-            }
-
-            return $exitCode;
+            return self::REQUEST_TO_TERMINATE;
         }
 
-        abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
+        return $exitCode;
+    }
 
-        public function handleSignal(int $signal): void
-        {
-            switch ($signal) {
-                // Shutdown signals
-                case SIGTERM:
-                case SIGINT:
-                    $this->signalShutdownRequested = true;
-                    break;
-            }
+    abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
+
+    public function handleSignal(int $signal, int|false $previousExitCode = 0): false
+    {
+        switch ($signal) {
+            // Shutdown signals
+            case SIGTERM:
+            case SIGINT:
+                $this->signalShutdownRequested = true;
         }
 
-        private function trapSignals(): void
-        {
-            pcntl_async_signals(true);
+        return false;
+    }
 
-            // Add the signal handler
-            pcntl_signal(SIGTERM, [$this, 'handleSignal']);
-            pcntl_signal(SIGINT, [$this, 'handleSignal']);
+    /**
+     * @return list<int>
+     */
+    public function getSubscribedSignals(): array
+    {
+        return [
+            SIGTERM,
+            SIGINT,
+        ];
+    }
+
+    protected function getSleepDuration(): int
+    {
+        return $this->sleepDuration;
+    }
+
+    protected function setSleepDuration(int $sleepDuration): void
+    {
+        if ($sleepDuration < 0) {
+            throw new \InvalidArgumentException('Invalid timeout provided to ' . __METHOD__);
         }
 
-        protected function getSleepDuration(): int
-        {
-            return $this->sleepDuration;
+        $this->sleepDuration = $sleepDuration;
+    }
+
+    private function sleep(OutputInterface $output): void
+    {
+        if (0 === $this->sleepDuration) {
+            return;
         }
 
-        protected function setSleepDuration(int $sleepDuration): void
-        {
-            if ($sleepDuration < 0) {
-                throw new \InvalidArgumentException('Invalid timeout provided to ' . __METHOD__);
-            }
+        $sleepCountDown = $this->sleepDuration;
 
-            $this->sleepDuration = $sleepDuration;
+        while (! $this->signalShutdownRequested && --$sleepCountDown) {
+            sleep(1);
         }
 
-        private function sleep(OutputInterface $output): void
-        {
-            if (0 === $this->sleepDuration) {
-                return;
-            }
-
-            $sleepCountDown = $this->sleepDuration;
-
-            while (! $this->signalShutdownRequested && --$sleepCountDown) {
-                sleep(1);
-            }
-
-            $output->writeln(
-                sprintf('Slept %d second(s)', $this->sleepDuration - $sleepCountDown),
-                OutputInterface::VERBOSITY_DEBUG
-            );
-        }
+        $output->writeln(
+            sprintf('Slept %d second(s)', $this->sleepDuration - $sleepCountDown),
+            OutputInterface::VERBOSITY_DEBUG
+        );
     }
 }

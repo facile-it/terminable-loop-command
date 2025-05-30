@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bridge\PhpUnit\ClockMock;
-use Symfony\Component\Console\Command\SignalableCommandInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -140,10 +139,6 @@ class AbstractTerminableCommandTest extends TestCase
     public function testGetSubscribedSignals(int $signal): void
     {
         $stubCommand = $this->createStubTerminableCommand();
-
-        if (! interface_exists(SignalableCommandInterface::class) || ! $stubCommand instanceof SignalableCommandInterface) {
-            $this->markTestSkipped('This test requires the Symfony 7.3+ implementation');
-        }
 
         $this->assertContains($signal, $stubCommand->getSubscribedSignals(), 'Signal not subscribed to');
     }
