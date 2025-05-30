@@ -31,11 +31,13 @@
     },
     "require": {
         "php": "^8.2",
-        "symfony/console": "^6.4 | ^7.0"
+        "ext-pcntl": "*",
+        "symfony/console": "^6.4 || ^7.0"
     },
     "require-dev": {
         "facile-it/facile-coding-standard": "^1.2",
         "jangregor/phpstan-prophecy": "2.2.0",
+        "phpspec/prophecy": "^1.18",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "2.1.17",
@@ -44,6 +46,7 @@
         "rector/rector": "2.0.17",
         "shipmonk/composer-dependency-analyser": "^1.8",
         "symfony/phpunit-bridge": "^6.4 || ^7.0",
+        "symfony/process": "^6.4 || ^7.0",
         "vimeo/psalm": "^6"
     }
 }
