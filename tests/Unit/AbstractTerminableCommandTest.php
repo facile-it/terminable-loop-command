@@ -122,7 +122,7 @@ class AbstractTerminableCommandTest extends TestCase
         $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::containingString('Starting'), OutputInterface::VERBOSITY_VERBOSE)
             ->shouldBeCalledTimes(1)
-            ->will(function () use ($stubCommand, $signal) {
+            ->will(function () use ($stubCommand, $signal): void {
                 $stubCommand->handleSignal($signal);
             });
         $output->writeln('Signal received, skipping execution', OutputInterface::VERBOSITY_NORMAL)
@@ -146,7 +146,7 @@ class AbstractTerminableCommandTest extends TestCase
     /**
      * @return array{0: int}[]
      */
-    public function signalProvider(): array
+    public static function signalProvider(): array
     {
         return [
             [SIGINT],

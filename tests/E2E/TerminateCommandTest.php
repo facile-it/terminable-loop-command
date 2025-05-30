@@ -37,7 +37,7 @@ class TerminateCommandTest extends TestCase
     /**
      * @return string[][][]
      */
-    public function commandLineProvider(): array
+    public static function commandLineProvider(): array
     {
         return [
             [
@@ -119,7 +119,7 @@ class TerminateCommandTest extends TestCase
     /**
      * @return array<array{int,int}>
      */
-    public function provideSignals(): array
+    public static function provideSignals(): array
     {
         return [
             [SIGTERM, 143],
