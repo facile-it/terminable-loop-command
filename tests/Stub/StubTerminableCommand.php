@@ -28,7 +28,7 @@ class StubTerminableCommand extends AbstractTerminableCommand
         $stubDuration = $this->getOption($input, 'stub');
         $sleepDuration = $this->getOption($input, 'sleep');
 
-        if ($stubDuration) {
+        if ($stubDuration !== 0) {
             $process = new Process(['sleep', $stubDuration]);
             $process->run();
         }

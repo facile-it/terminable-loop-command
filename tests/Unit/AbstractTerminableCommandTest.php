@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Facile\TerminableLoop\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Facile\TerminableLoop\AbstractTerminableCommand;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -78,17 +79,13 @@ class AbstractTerminableCommandTest extends TestCase
         $stubCommand->run(new ArrayInput([]), $output->reveal());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('signalProvider')]
+    #[DataProvider('signalProvider')]
     public function testReceiveSignalDuringCommandBody(int $signal): void
     {
         $stubCommand = new class ($signal) extends AbstractTerminableCommand {
-            /** @var int */
-            private $signal;
-
-            public function __construct(int $signal)
+            public function __construct(private readonly int $signal)
             {
                 parent::__construct('dummy:command');
-                $this->signal = $signal;
             }
 
             protected function commandBody(InputInterface $input, OutputInterface $output): int
@@ -110,7 +107,7 @@ class AbstractTerminableCommandTest extends TestCase
         $this->assertSame(143, $exitCode);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('signalProvider')]
+    #[DataProvider('signalProvider')]
     public function testReceiveSignalBeforeCommandBody(int $signal): void
     {
         $stubCommand = $this->createStubTerminableCommand();
@@ -129,7 +126,7 @@ class AbstractTerminableCommandTest extends TestCase
         $this->assertSame(143, $exitCode);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('signalProvider')]
+    #[DataProvider('signalProvider')]
     public function testGetSubscribedSignals(int $signal): void
     {
         $stubCommand = $this->createStubTerminableCommand();

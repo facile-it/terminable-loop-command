@@ -13,19 +13,9 @@ abstract class AbstractTerminableCommand extends Command implements SignalableCo
 {
     private const REQUEST_TO_TERMINATE = 143;
 
-    /** @var int */
-    private $sleepDuration;
+    private int $sleepDuration = 0;
 
-    /** @var bool */
-    private $signalShutdownRequested;
-
-    public function __construct(?string $name = null)
-    {
-        $this->sleepDuration = 0;
-        $this->signalShutdownRequested = false;
-
-        parent::__construct($name);
-    }
+    private bool $signalShutdownRequested = false;
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -41,7 +31,7 @@ abstract class AbstractTerminableCommand extends Command implements SignalableCo
 
         $this->sleep($output);
 
-        /** @psalm-suppress DocblockTypeContradiction */
+        /** @psalm-suppress TypeDoesNotContainType */
         if ($this->signalShutdownRequested) {
             $output->writeln('Signal received, terminating with exit code ' . self::REQUEST_TO_TERMINATE, OutputInterface::VERBOSITY_NORMAL);
 

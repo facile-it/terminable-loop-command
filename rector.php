@@ -10,11 +10,14 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     // uncomment to reach your current PHP version
-    // ->withPhpSets()
-    ->withTypeCoverageLevel(0)
-    ->withDeadCodeLevel(0)
-    ->withCodeQualityLevel(0)
-    ->withAttributesSets(phpunit: true)
+    ->withImportNames(importShortClasses: false)
+    ->withPhpSets()
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        typeDeclarations: true
+    )
+    ->withAttributesSets(all: true)
     ->withSets([
         \Rector\PHPUnit\Set\PHPUnitSetList::PHPUNIT_100,
     ])

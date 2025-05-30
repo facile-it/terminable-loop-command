@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Facile\TerminableLoop\Tests\E2E;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\Process\Process;
@@ -19,7 +20,7 @@ class TerminateCommandTest extends TestCase
     /**
      * @param string[] $commandLine
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('commandLineProvider')]
+    #[DataProvider('commandLineProvider')]
     public function testStubCommand(array $commandLine): void
     {
         $process = new Process($commandLine);
@@ -57,7 +58,7 @@ class TerminateCommandTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('provideSignals')]
+    #[DataProvider('provideSignals')]
     public function testSignalsDuringCommandBody(int $signal, int $exitCode): void
     {
         $process = new Process([
@@ -84,7 +85,7 @@ class TerminateCommandTest extends TestCase
         $this->assertSame($exitCode, $process->getExitCode());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('provideSignals')]
+    #[DataProvider('provideSignals')]
     public function testSigTermDuringSleep(int $signal, int $exitCode): void
     {
         $process = new Process([
