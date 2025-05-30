@@ -1,4 +1,4 @@
-pre-commit-check: cs-fix psalm phpstan tests
+pre-commit-check: cs-fix psalm phpstan tests composer-check composer-validate
 
 cs-fix:
 	vendor/bin/php-cs-fixer fix --verbose --ansi
@@ -14,5 +14,11 @@ phpstan:
 
 tests:
 	vendor/bin/phpunit
+
+composer-check:
+	vendor/bin/composer-dependency-analyser
+
+composer-validate:
+	composer validate --strict
 
 .PHONY: tests
