@@ -53,7 +53,7 @@ abstract class AbstractTerminableCommand extends Command implements SignalableCo
 
     abstract protected function commandBody(InputInterface $input, OutputInterface $output): int;
 
-    public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
+    public function handleSignal(int $signal, $previousExitCode = 0): false
     {
         switch ($signal) {
             // Shutdown signals
@@ -98,7 +98,7 @@ abstract class AbstractTerminableCommand extends Command implements SignalableCo
 
         $sleepCountDown = $this->sleepDuration;
 
-        while (!$this->signalShutdownRequested && --$sleepCountDown) {
+        while (! $this->signalShutdownRequested && --$sleepCountDown) {
             sleep(1);
         }
 
