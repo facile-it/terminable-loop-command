@@ -40,7 +40,7 @@
         "phpspec/prophecy": "^1.18",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan": "2.1.28",
+        "phpstan/phpstan": "2.1.29",
         "phpstan/phpstan-phpunit": "2.0.7",
         "phpunit/phpunit": "^10 || ^11 || ^12",
         "psalm/plugin-phpunit": "0.19.3",
