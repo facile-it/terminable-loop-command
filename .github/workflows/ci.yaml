@@ -49,6 +49,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
+          composer-options: ${{ matrix.composer_options }}
           dependency-versions: "${{ matrix.dependencies }}"
       - name: Run tests
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
