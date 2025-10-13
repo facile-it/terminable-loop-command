@@ -44,7 +44,7 @@
         "phpstan/phpstan-phpunit": "2.0.7",
         "phpunit/phpunit": "^10 || ^11 || ^12",
         "psalm/plugin-phpunit": "0.19.3",
-        "rector/rector": "2.1.7",
+        "rector/rector": "2.2.3",
         "shipmonk/composer-dependency-analyser": "^1.8",
         "symfony/phpunit-bridge": "^6.4 || ^7.0",
         "symfony/process": "^6.4 || ^7.0",
