@@ -22,12 +22,14 @@ jobs:
           - '8.2'
         symfony: ['']
         include:
+          - php: '8.5'
+            composer_options: '--ignore-platform-req=php+'
           - symfony: '^7.3'
             php: '8.3'
           - symfony: '^6.4'
             php: '8.2'
           - php: '8.2'
-            dependencies: '--prefer-lowest'
+            dependencies: 'prefer-lowest'
             env:
               SYMFONY_DEPRECATIONS_HELPER: 'disabled'
 
@@ -47,6 +49,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
+          composer-options: ${{ matrix.composer_options }}
           dependency-versions: "${{ matrix.dependencies }}"
       - name: Run tests
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
