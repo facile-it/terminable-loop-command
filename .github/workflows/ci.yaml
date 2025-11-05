@@ -20,13 +20,13 @@ jobs:
           - '8.4'
           - '8.3'
           - '8.2'
-        symfony: ['']
+        symfony-version: ['']
         include:
           - php: '8.5'
             composer_options: '--ignore-platform-req=php+'
-          - symfony: '^7.3'
+          - symfony-version: '^7.3'
             php: '8.3'
-          - symfony: '^6.4'
+          - symfony-version: '^6.4'
             php: '8.2'
           - php: '8.2'
             dependencies: 'prefer-lowest'
@@ -43,14 +43,14 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
-      - name: Restrict Symfony version
-        run: composer require --dev "symfony/symfony:${{ matrix.symfony }}" --no-update
-        if: matrix.symfony
+          tools: flex
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
           composer-options: ${{ matrix.composer_options }}
           dependency-versions: "${{ matrix.dependencies }}"
+        env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
       - name: Run tests
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
       - name: Upload code coverage
