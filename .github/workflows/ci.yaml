@@ -50,6 +50,8 @@ jobs:
       - name: Configure Composer minimum-stability
         if: matrix.composer-minimum-stability
         run: composer config minimum-stability ${{ matrix.composer-minimum-stability }}
+      - name: Remove Composer unneeded dependencies
+        run: composer remove --dev --no-update vimeo/psalm psalm/plugin-phpunit facile-it/facile-coding-standard
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
