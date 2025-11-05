@@ -14,5 +14,5 @@ require __DIR__.'/../../vendor/autoload.php';
 $input = new ArgvInput();
 
 $application = new Application('Stub application');
-$application->add(new StubTerminableCommand());
+$application->addCommands([new StubTerminableCommand()]);
 $application->run($input);
