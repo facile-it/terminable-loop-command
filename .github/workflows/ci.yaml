@@ -10,7 +10,7 @@ on:
 
 jobs:
   Tests:
-    name: PHP ${{ matrix.php }} Symfony ${{ matrix.symfony }}${{ matrix.description }}
+    name: PHP ${{ matrix.php }} Symfony ${{ matrix.symfony-version }}${{ matrix.description }}
     runs-on: ubuntu-latest
     env:
       SYMFONY_DEPRECATIONS_HELPER: 'max[self]=0'
