@@ -41,7 +41,7 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "2.1.38",
-        "phpstan/phpstan-phpunit": "2.0.12",
+        "phpstan/phpstan-phpunit": "2.0.13",
         "phpunit/phpunit": "^10 || ^11 || ^12",
         "psalm/plugin-phpunit": "0.19.3",
         "rector/rector": "2.3.5",
