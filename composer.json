@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "facile-it/facile-coding-standard": "^1.2",
-        "jangregor/phpstan-prophecy": "2.2.0",
+        "jangregor/phpstan-prophecy": "2.3.0",
         "phpspec/prophecy": "^1.18",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/extension-installer": "^1.4",
