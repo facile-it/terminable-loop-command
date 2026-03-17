@@ -53,7 +53,7 @@ jobs:
       - name: Remove Composer unneeded dependencies
         run: composer remove --dev --no-update vimeo/psalm psalm/plugin-phpunit facile-it/facile-coding-standard
       - name: Install dependencies
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           composer-options: ${{ matrix.composer_options }}
           dependency-versions: "${{ matrix.dependencies }}"
@@ -92,5 +92,5 @@ jobs:
         with:
           php-version: 8.2
       - name: Install dependencies
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
       - run: ${{ matrix.script }}
