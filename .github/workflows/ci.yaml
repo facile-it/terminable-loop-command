@@ -24,8 +24,7 @@ jobs:
         include:
           - php: '8.5'
             composer_options: '--ignore-platform-req=php+'
-          - symfony-version: '^8.0.0-BETA1'
-            composer-minimum-stability: 'beta'
+          - symfony-version: '^8.0'
             php: '8.4'
           - symfony-version: '^7.3'
             php: '8.3'
