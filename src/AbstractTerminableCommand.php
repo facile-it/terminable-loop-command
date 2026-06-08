@@ -94,7 +94,7 @@ abstract class AbstractTerminableCommand extends Command implements SignalableCo
 
         $output->writeln(
             sprintf('Slept %d second(s)', $this->sleepDuration - $sleepCountDown),
-            OutputInterface::VERBOSITY_DEBUG
+            OutputInterface::VERBOSITY_DEBUG,
         );
     }
 }

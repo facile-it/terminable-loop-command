@@ -83,8 +83,9 @@ class AbstractTerminableCommandTest extends TestCase
     public function testReceiveSignalDuringCommandBody(int $signal): void
     {
         $stubCommand = new class ($signal) extends AbstractTerminableCommand {
-            public function __construct(private readonly int $signal)
-            {
+            public function __construct(
+                private readonly int $signal,
+            ) {
                 parent::__construct('dummy:command');
             }
 

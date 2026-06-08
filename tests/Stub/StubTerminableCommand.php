@@ -62,7 +62,7 @@ class StubTerminableCommand extends AbstractTerminableCommand
         }
 
         throw new \InvalidArgumentException(
-            'Can\'t return an int from ' . print_r($paramValue, true)
+            'Can\'t return an int from ' . print_r($paramValue, true),
         );
     }
 }
