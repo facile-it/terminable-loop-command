@@ -19,6 +19,6 @@ return RectorConfig::configure()
     )
     ->withAttributesSets(all: true)
     ->withSets([
-        \Rector\PHPUnit\Set\PHPUnitSetList::PHPUNIT_100,
+        \Rector\PHPUnit\Set\PHPUnitSetList::COMPOSER_BASED,
     ])
 ;
